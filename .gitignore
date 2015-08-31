@@ -1,0 +1,19 @@
+# forge
+/forge-1.7.10*
+/CREDITS-fml.txt
+/LICENSE-fml.txt
+/MinecraftForge-Credits.txt
+/MinecraftForge-License.txt
+/README.txt
+
+# gradle
+/.gradle
+/build
+/eclipse
+/libs/*
+
+# idea
+/.idea
+/*.iml
+/*.ipr
+/*.iws

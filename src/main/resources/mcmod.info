@@ -1,0 +1,16 @@
+[
+{
+  "modid": "${mod_id}",
+  "name": "Maid Protector",
+  "description": "Longlive the maids!",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["skydark"],
+  "credits": "The Forge and FML guys, for making this example",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": ["lmmx"]
+}
+]
