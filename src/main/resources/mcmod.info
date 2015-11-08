@@ -1,7 +1,7 @@
 [
 {
   "modid": "${mod_id}",
-  "name": "Maid Protector",
+  "name": "Maid Pro",
   "description": "Longlive the maids!",
   "version": "${version}",
   "mcversion": "${mcversion}",

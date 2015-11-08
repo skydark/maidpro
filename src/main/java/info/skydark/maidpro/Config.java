@@ -28,7 +28,9 @@ public final class Config {
     public static int tickPerContractCheck;
     public static int healthPerHeal;
     public static int tickPerHealCheck;
+    public static int milkmode;
     public static boolean easymode;
+    public static boolean clockSaveAllPets;
 
     public static void init(File configFile) {
         config = new Configuration(configFile);
@@ -53,8 +55,12 @@ public final class Config {
         manaPerPoison = loadInt("manaPerPoison", 4, "not finished yet due to a concurrency bug");
         enablePoisonResistance = loadInt("enablePoisonResistance", 640, "not finished yet due to a concurrency bug");
         easymode = loadBoolean("easymode", true, "use easier recipe");
+        clockSaveAllPets = loadBoolean("clockSaveAllPets", true, "protect all pets when you have Kairos' clock");
+        milkmode = loadInt("milkmode", 1, "0:no milk 1:is contracted 2:get milk from all maids");
 
-        config.save();
+        if (config.hasChanged()) {
+            config.save();
+        }
     }
 
     public static int loadInt(String name, int _default, String comment) {

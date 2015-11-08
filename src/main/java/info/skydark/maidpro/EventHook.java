@@ -1,11 +1,11 @@
 package info.skydark.maidpro;
 
-import littleMaidMobX.LMM_EntityLittleMaid;
-import littleMaidMobX.LMM_EntityLittleMaidAvatarMP;
-import littleMaidMobX.LMM_InventoryLittleMaid;
+import littleMaidMobX.*;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.IEntityOwnable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
@@ -14,9 +14,31 @@ import net.minecraft.util.DamageSource;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.event.entity.player.EntityInteractEvent;
+
 
 public class EventHook
 {
+    @SubscribeEvent
+    public void interact(EntityInteractEvent event) {
+        if (Config.milkmode == 0 || !(event.target instanceof LMM_EntityLittleMaid)) {
+            return;
+        }
+        EntityPlayer player = event.entityPlayer;
+        LMM_EntityLittleMaid maid = (LMM_EntityLittleMaid) event.target;
+        ItemStack itemstack = player.inventory.getCurrentItem();
+        if (itemstack != null && itemstack.getItem() == Items.bucket && player.isSneaking()) {
+            if (Config.milkmode == 2 || (maid.isContractEX() && maid.isMaidContractOwner(player))) {
+                if (!player.capabilities.isCreativeMode && --itemstack.stackSize <= 0) {
+                    player.inventory.setInventorySlotContents(player.inventory.currentItem, new ItemStack(Items.milk_bucket));
+                } else if (!player.inventory.addItemStackToInventory(new ItemStack(Items.milk_bucket))) {
+                    player.dropPlayerItemWithRandomChoice(new ItemStack(Items.milk_bucket), false);
+                }
+            }
+            ((LMM_EntityLittleMaid) event.target).playSound(LMM_EnumSound.living_whine, false);
+        }
+    }
+
     @SubscribeEvent
     public void onLivingUpdate(LivingEvent.LivingUpdateEvent event) {
         if (event.entity.worldObj.isRemote) {
@@ -53,6 +75,20 @@ public class EventHook
 
     @SubscribeEvent
     public void onLivingHurt(LivingHurtEvent event) {
+        if (Config.clockSaveAllPets && event.entity instanceof IEntityOwnable) {
+            Entity attacker = event.source.getEntity();
+            if (attacker instanceof EntityPlayer) {
+                if (((IEntityOwnable) event.entity).getOwner() == attacker &&
+                        !attacker.isSneaking()) {
+                    InventoryPlayer inventory = ((EntityPlayer) attacker).inventory;
+                    if (inventory != null && inventory.hasItem(ModItems.kairosClock)) {
+                        event.ammount = 0;
+                        event.setCanceled(true);
+                        return;
+                    }
+                }
+            }
+        }
         if (! (event.entity instanceof LMM_EntityLittleMaidAvatarMP)) {
             return;
         }
