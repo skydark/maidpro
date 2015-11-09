@@ -25,5 +25,8 @@ public class MaidPro
     public void postInit(FMLPostInitializationEvent event)
     {
         MinecraftForge.EVENT_BUS.register(new EventHook());
+        if (Config.golemlove) {
+            MinecraftForge.EVENT_BUS.register(new EventHookIronGolem());
+        }
     }
 }
