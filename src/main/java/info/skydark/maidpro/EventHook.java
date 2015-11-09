@@ -82,20 +82,27 @@ public class EventHook
 
     @SubscribeEvent
     public void onLivingHurt(LivingHurtEvent event) {
-        if (Config.clockSaveAllPets && event.entity instanceof IEntityOwnable) {
-            Entity attacker = event.source.getEntity();
-            if (attacker instanceof EntityPlayer) {
-                if (((IEntityOwnable) event.entity).getOwner() == attacker &&
-                        !attacker.isSneaking()) {
-                    InventoryPlayer inventory = ((EntityPlayer) attacker).inventory;
-                    if (inventory != null && inventory.hasItem(ModItems.kairosClock)) {
-                        event.ammount = 0;
-                        event.setCanceled(true);
-                        return;
+        if (Config.clockSaveAllPets) {
+            Entity _entity = event.entity;
+            if (event.entity instanceof LMM_EntityLittleMaidAvatarMP) {
+                _entity = ((LMM_EntityLittleMaidAvatarMP) event.entity).avatar;
+            }
+            if (_entity instanceof IEntityOwnable) {
+                Entity attacker = event.source.getEntity();
+                if (attacker instanceof EntityPlayer) {
+                    if (((IEntityOwnable) _entity).getOwner() == attacker &&
+                            !attacker.isSneaking()) {
+                        InventoryPlayer inventory = ((EntityPlayer) attacker).inventory;
+                        if (inventory != null && inventory.hasItem(ModItems.kairosClock)) {
+                            event.ammount = 0;
+                            event.setCanceled(true);
+                            return;
+                        }
                     }
                 }
             }
         }
+
         if (! (event.entity instanceof LMM_EntityLittleMaidAvatarMP)) {
             return;
         }
