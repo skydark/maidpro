@@ -32,14 +32,24 @@ public class EventHook
         if (itemstack != null && player.isSneaking()) {
             Item item = itemstack.getItem();
             if (Config.milkmode != 0 && item == Items.bucket) {
-                if (Config.milkmode == 2 || (maid.isContractEX() && maid.isMaidContractOwner(player))) {
+                boolean is_contracted = maid.isContractEX() && maid.isMaidContractOwner(player);
+                if (Config.milkmode != 1 || is_contracted) {
                     if (!player.capabilities.isCreativeMode && --itemstack.stackSize <= 0) {
                         player.inventory.setInventorySlotContents(player.inventory.currentItem, new ItemStack(Items.milk_bucket));
                     } else if (!player.inventory.addItemStackToInventory(new ItemStack(Items.milk_bucket))) {
                         player.dropPlayerItemWithRandomChoice(new ItemStack(Items.milk_bucket), false);
                     }
+                    if (is_contracted) {
+                        maid.playSound(LMM_EnumSound.laughter, false);
+                    } else {
+                        if (Config.milkmode == 3) {
+                            maid.setSwing(20, LMM_EnumSound.attack);
+                            maid.maidAvatar.attackTargetEntityWithCurrentItem(player);
+                        } else {
+                            maid.playSound(LMM_EnumSound.living_whine, false);
+                        }
+                    }
                 }
-                maid.playSound(LMM_EnumSound.living_whine, false);
             } else if (item instanceof ItemBlock && ((ItemBlock) item).field_150939_a instanceof BlockFlower && maid.getRNG().nextInt(3) == 0) {
                 maid.playSound(LMM_EnumSound.laughter, false);
             }

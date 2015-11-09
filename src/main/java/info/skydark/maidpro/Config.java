@@ -57,7 +57,7 @@ public final class Config {
         enablePoisonResistance = loadInt("enablePoisonResistance", 640, "not finished yet due to a concurrency bug");
         easymode = loadBoolean("easymode", true, "use easier recipe");
         clockSaveAllPets = loadBoolean("clockSaveAllPets", true, "protect all pets when you have Kairos' clock");
-        milkmode = loadInt("milkmode", 1, "0:no milk 1:is contracted 2:get milk from all maids");
+        milkmode = loadInt("milkmode", 1, "0:no milk 1:is contracted 2:get milk from all maids 3:maids hate rogues");
         golemlove = loadBoolean("golemlove", true, "iron golems love maids like villagers");
 
         if (config.hasChanged()) {
