@@ -2,6 +2,7 @@ package info.skydark.maidpro;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -18,6 +19,11 @@ public class MaidPro
     {
         Config.init(event.getSuggestedConfigurationFile());
         ModItems.init();
+    }
+
+    @EventHandler
+    public void init(FMLInitializationEvent event)
+    {
         Recipes.init();
     }
 
