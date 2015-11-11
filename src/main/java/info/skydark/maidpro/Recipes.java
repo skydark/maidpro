@@ -20,6 +20,9 @@ public final class Recipes {
         ((EmeraldFragment) eternalEmeraldFragment.getItem()).setContainerItem(dragon_egg);
         ((EmeraldFragment) eternalEmeraldFragment.getItem()).setMana(eternalEmeraldFragment, -1);
 
+        GameRegistry.addShapelessRecipe(new ItemStack(ModBlocks.maidBeacon),
+                Blocks.beacon, Items.emerald, Items.bone, ModItems.kairosClock
+        );
         if (Config.easymode) {
             GameRegistry.addRecipe(new ItemStack(ModItems.kairosClock), new Object[]{
                     "ABA",

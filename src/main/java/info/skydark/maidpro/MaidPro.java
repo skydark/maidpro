@@ -5,6 +5,7 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraftforge.common.MinecraftForge;
 
 
@@ -18,6 +19,7 @@ public class MaidPro
     public void preinit(FMLPreInitializationEvent event)
     {
         Config.init(event.getSuggestedConfigurationFile());
+        ModBlocks.init();
         ModItems.init();
     }
 
@@ -25,6 +27,7 @@ public class MaidPro
     public void init(FMLInitializationEvent event)
     {
         Recipes.init();
+        GameRegistry.registerTileEntity(TileEntityMaidBeacon.class, "tile.maidpro.maid_beacon");
     }
 
     @EventHandler
