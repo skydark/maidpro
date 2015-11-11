@@ -3,7 +3,9 @@ package info.skydark.maidpro;
 import littleMaidMobX.*;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityOwnable;
+import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
@@ -12,15 +14,20 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
 
+import java.util.Iterator;
+import java.util.List;
+
 
 public class EventHook
 {
+    private static final double CALLING_DISTANCE = 16.0;
     @SubscribeEvent
     public void interact(EntityInteractEvent event) {
         if (!(event.target instanceof LMM_EntityLittleMaid)) {
@@ -124,12 +131,17 @@ public class EventHook
             return;
         }
 
+        Entity attacker = event.source.getEntity();
+
+        // call for wolves help
+        if (event.ammount > 0 && attacker instanceof EntityLivingBase) {
+            callWolves(maid, (EntityLivingBase) attacker, CALLING_DISTANCE);
+        }
 
         LMM_InventoryLittleMaid inventory = maid.maidInventory;
         boolean hasKairosClock = inventory.hasItem(ModItems.kairosClock);
 
         if (hasKairosClock) {
-            Entity attacker = event.source.getEntity();
             if (attacker instanceof EntityPlayer && maid.isMaidContractOwner((EntityPlayer) attacker)) {
                 event.ammount = 0;
                 event.setCanceled(true);
@@ -205,7 +217,6 @@ public class EventHook
                 event.setCanceled(true);
             }
         }
-        return;
     }
 
     private static ItemStack findItem(InventoryPlayer inventory, Item item) {
@@ -215,6 +226,27 @@ public class EventHook
             }
         }
         return null;
+    }
+
+    private void callWolves(LMM_EntityLittleMaid maid, EntityLivingBase attacker, double d0) {
+        EntityLivingBase owner = maid.getOwner();
+        if (owner == null || attacker == null || attacker == owner) {
+            return;
+        }
+        if (attacker instanceof IEntityOwnable && ((IEntityOwnable) attacker).getOwner() == owner) {
+            return;
+        }
+        // owner.setRevengeTarget(attacker);
+        List list = maid.worldObj.getEntitiesWithinAABB(EntityWolf.class, AxisAlignedBB.getBoundingBox(maid.posX, maid.posY, maid.posZ, maid.posX + 1.0D, maid.posY + 1.0D, maid.posZ + 1.0D).expand(d0, 10.0D, d0));
+
+        for (Object creature: list) {
+            EntityWolf wolf = (EntityWolf) creature;
+            EntityLivingBase _owner = wolf.getOwner();
+            if (_owner instanceof  EntityPlayer && maid.isMaidContractOwner((EntityPlayer) _owner) && wolf.getAttackTarget() == null && !wolf.isOnSameTeam(attacker))
+            {
+                wolf.setRevengeTarget(attacker);
+            }
+        }
     }
 }
 
