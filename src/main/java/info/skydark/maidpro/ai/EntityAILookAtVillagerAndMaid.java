@@ -1,4 +1,4 @@
-package info.skydark.maidpro;
+package info.skydark.maidpro.ai;
 
 import littleMaidMobX.LMM_EntityLittleMaid;
 import net.minecraft.entity.Entity;

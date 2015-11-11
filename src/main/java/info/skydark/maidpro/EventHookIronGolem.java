@@ -1,6 +1,7 @@
 package info.skydark.maidpro;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import info.skydark.maidpro.ai.EntityAILookAtVillagerAndMaid;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityAILookAtVillager;
 import net.minecraft.entity.ai.EntityAITasks;
