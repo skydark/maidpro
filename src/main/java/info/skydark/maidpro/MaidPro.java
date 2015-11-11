@@ -37,5 +37,8 @@ public class MaidPro
         if (Config.golemlove) {
             MinecraftForge.EVENT_BUS.register(new EventHookIronGolem());
         }
+        if (Config.wolflove) {
+            MinecraftForge.EVENT_BUS.register(new EventHookWolf());
+        }
     }
 }

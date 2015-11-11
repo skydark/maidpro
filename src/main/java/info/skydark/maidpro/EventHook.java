@@ -21,7 +21,6 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
 
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -134,7 +133,7 @@ public class EventHook
         Entity attacker = event.source.getEntity();
 
         // call for wolves help
-        if (event.ammount > 0 && attacker instanceof EntityLivingBase) {
+        if (Config.wolflove && event.ammount > 0 && attacker instanceof EntityLivingBase) {
             callWolves(maid, (EntityLivingBase) attacker, CALLING_DISTANCE);
         }
 

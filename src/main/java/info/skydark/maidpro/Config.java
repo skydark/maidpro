@@ -30,6 +30,7 @@ public final class Config {
     public static int tickPerHealCheck;
     public static int milkmode;
     public static boolean easymode;
+    public static boolean wolflove;
     public static boolean golemlove;
     public static boolean clockSaveAllPets;
 
@@ -58,6 +59,7 @@ public final class Config {
         easymode = loadBoolean("easymode", true, "use easier recipe");
         clockSaveAllPets = loadBoolean("clockSaveAllPets", true, "protect all pets when you have Kairos' clock");
         milkmode = loadInt("milkmode", 1, "0:no milk 1:is contracted 2:get milk from all maids 3:maids hate rogues");
+        wolflove = loadBoolean("wolflove", true, "wolves love maids");
         golemlove = loadBoolean("golemlove", true, "iron golems love maids like villagers");
 
         if (config.hasChanged()) {
