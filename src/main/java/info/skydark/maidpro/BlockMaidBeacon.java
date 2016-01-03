@@ -18,6 +18,7 @@ public class BlockMaidBeacon extends BlockBeacon {
     {
         super();
         setBlockName(MaidPro.MODID + "_" + name);
+        setLightLevel(1.0F);
         setBlockTextureName("minecraft:beacon");
         GameRegistry.registerBlock(this, MaidPro.MODID + "_" + this.name);
     }
