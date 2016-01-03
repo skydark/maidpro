@@ -2,10 +2,12 @@ package info.skydark.maidpro;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
+import info.skydark.maidpro.proxy.CommonProxy;
 import net.minecraftforge.common.MinecraftForge;
 
 
@@ -14,6 +16,9 @@ public class MaidPro
 {
     public static final String MODID = "${MOD_ID}";
     public static final String VERSION = "${MOD_VERSION}";
+
+    @SidedProxy(clientSide="info.skydark.maidpro.proxy.ClientProxy", serverSide="info.skydark.maidpro.proxy.ServerProxy")
+    public static CommonProxy proxy;
 
     @EventHandler
     public void preinit(FMLPreInitializationEvent event)
@@ -28,6 +33,7 @@ public class MaidPro
     {
         Recipes.init();
         GameRegistry.registerTileEntity(TileEntityMaidBeacon.class, "tile.maidpro.maid_beacon");
+        proxy.registerRender();
     }
 
     @EventHandler
