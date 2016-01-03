@@ -1,5 +1,7 @@
 package info.skydark.maidpro;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import littleMaidMobX.LMM_EntityLittleMaid;
 import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.potion.PotionEffect;
@@ -81,5 +83,12 @@ public class TileEntityMaidBeacon extends TileEntityBeacon
                 }
             }
         }
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public AxisAlignedBB getRenderBoundingBox()
+    {
+        return INFINITE_EXTENT_AABB;
     }
 }
