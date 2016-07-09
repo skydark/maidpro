@@ -14,6 +14,7 @@ public class EntityAIHurtByTargetPlus extends EntityAIHurtByTarget {
     public EntityAIHurtByTargetPlus(EntityTameable p_i1660_1_, boolean p_i1660_2_)
     {
         super(p_i1660_1_, p_i1660_2_);
+        _entity = p_i1660_1_;
     }
 
     @Override
